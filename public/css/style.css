@@ -1,266 +1,66 @@
-.form-question {
-  margin-top: 2vh;
-}
-
-.options {
-  margin-left: 15px;
-  margin-top: 5px;
-}
-
 body {
-  background-color: #d4e4e7;
-  color: #122231;
-  margin: 0;
-  padding: 0;
-  height: 100%;
+  background-color: #121212;
 }
 
-.navbar {
-  background-color: #122231;
-}
-.navbar a {
-  color: #fff !important;
-}
-/* .quiz-container {
-  background-color: #d4e4e7;
-  border: 2px solid #122231;
-  border-radius: 10px;
-  padding: 30px;
-} */
-.btn-primary {
-  background-color: #398af6;
-  border-color: #398af6;
+header {
+  background: #7f1d1d;
   color: #fff;
-}
-
-/* Animação de hover */
-.nav-link {
-  transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
-
-.nav-link:hover {
-  color: #398af6 !important;
-  transform: scale(1.05);
-}
-
-.hero {
-  background-image: url("../assets/bg-home.jpg");
-  background-size: cover;
-  background-position: center;
-  height: 90vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-}
-
-/* Responsividade */
-@media (max-width: 991px) {
-  .navbar-collapse {
-    justify-content: flex-end;
-  }
-
-  .navbar-brand {
-    text-align: left;
-    width: auto;
-  }
-
-  /* .quiz-container {
-    padding: 15px;
-  }
-
-  .quiz-container span {
-    font-size: 18px;
-    align-items: center;
-    padding: 2px;
-  } */
-
-  .hero {
-    background-image: url("../assets/bg-home-mobile.jpg");
-    align-items: flex-end;
-    padding-bottom: 100px;
-    padding-left: 30px;
-  }
-
-  .navbar-nav .nav-link {
-    transition: color 0.3s ease-in-out;
-  }
-
-  .navbar-nav .nav-link:hover {
-    color: #0d6efd;
-  }
-}
-
-
-body {
-  background-color: #d4e4e7;
-  color: #122231;
-}
-.navbar {
-  background-color: #122231;
-}
-.navbar a {
-  color: #fff !important;
-}
-/* .quiz-container {
-  background-color: #d4e4e7;
-  border: 2px solid #122231;
-  border-radius: 10px;
   padding: 20px;
-} */
-.btn-primary {
-  background-color: #398af6;
-  border-color: #398af6;
-  color: #fff;
+  text-align: center;
 }
 
+.card {
+  background-color: #1e1e1e;
+  border: 1px solid #2c2c2c;
+}
 
-footer {
-  background-color: #122231;
-  justify-items: center;
-  font-size: small;
-  color: #fff;
-  padding: 2px 0;
-  text-align: center;
+.card-title {
+  color: #ff6b6b;
+}
+
+.quick-exit {
   position: fixed;
-  width: 100%;
-  height: 4%;
-  bottom: 0;
-  margin-top: 10px;
+  top: 10px;
+  right: 10px;
+  z-index: 999;
 }
 
-
-.input-spacing{
-  margin-top: 10px;
+.form-control,
+.form-select {
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #fff;
 }
 
-.form-user{
-  margin-top: 10%;
+.form-control:focus,
+.form-select:focus {
+  background-color: #2a2a2a;
+  border-color: #ff6b6b;
+  box-shadow: none;
+  color: #fff;
 }
 
-.user-header{
-  font-size: 26px;
-  font-style: italic;
-  /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
-  font-weight: 800;
-  color: rgb(31, 33, 49)
+.form-check-input {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
 }
 
-.card-title{
-  background-color: #122231;
-  color: white;
+.form-check-input:checked {
+  background-color: #ff6b6b;
+  border-color: #ff6b6b;
 }
 
-.card-title h4{
-  font-size: 18px;
+.alert-warning {
+  background-color: #3a2f00;
+  border: 1px solid #665200;
+  color: #ffe082;
 }
 
-.card-options{
-  background-color:rgb(238, 238, 240);
-  font-size: 14px;
+.btn-danger {
+  background-color: #ff4d4d;
+  border: none;
 }
 
-.card{
-  margin-top: 10px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+.btn-danger:hover {
+  background-color: #e63946;
 }
-
-.questionario button{
-  margin-top: 10px;
-}
-
-#Responder{
-  margin-bottom: 50px;
-}
-
-.container-relatorio {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 15px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  width: auto;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-  background-color:rgb(238, 238, 240);
-}
-
-#conteudo-riscos{
-  margin-top: 20px;
-  font-size: 18px;
-  /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
-  margin-bottom: 100px;
-  /* text-align: justify;
-  overflow-wrap: break-word; */
-  hyphens: auto;
-  /* word-break: break-all; */
-  word-break: break-word;
-}
-
-#img-def-riscos{
-  height: 25vh;
-  float: left;
-  margin-right: 10px;
-}
-
-#conteudo-riscos header{
-  overflow: hidden;
-}
-
-#conteudo-riscos article{
-  padding-top: 20px;
-}
-
-#def-risco-iso{
-  font-style: italic;
-  font-weight: 700;
-  color: #122231;
-}
-
-#conteudo-riscos h2, #conteudo-riscos h3{
-  font-weight: bold;
-  margin-top: 1.2em;
-  margin-bottom: 1.2em;
-}
-
-#conteudo-riscos section{
-  margin-top: 50px;
-}
-
-#introducao{
-  margin-top: 30px;
-}
-
-#conteudo-riscos p{
-  text-align: justify;
-  line-height: 1.3;
-}
-
-body{
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
-
-#img-etapas-gestao-riscos{
-  text-align: center;
-}
-
-#img-etapas-gestao-riscos img{
-  height: 350px;
-}
-
-#conteudo-riscos h1{
-  text-align: center;
-}
-
-.navbar-nav{
-  margin-left: 130px;
-}
-
-
-
-
-
-
-
-
-

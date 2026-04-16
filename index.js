@@ -26,7 +26,7 @@ app.use(
 //Rotas
 
 app.get("/", (req, res) => {
-    res.render("informacoes");
+    res.render("form_denuncia");
 });
 
 app.get("/sobre", (req, res) => {
