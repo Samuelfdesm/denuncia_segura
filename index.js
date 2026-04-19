@@ -34,6 +34,6 @@ app.get("/sobre", (req, res) => {
 });
 
 
-app.listen(80, () => {console.log("App rodando!");});
+app.listen(3000, "0.0.0.0", () => {console.log("App rodando!");});
 
 
