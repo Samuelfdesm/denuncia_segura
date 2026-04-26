@@ -18,22 +18,19 @@
 
         <label class="form-label">Tipo de violência</label>
         <div class="row">
-            <div class="col-6 col-md-4 form-check">
-            <input class="form-check-input" type="checkbox"> Física
-            </div>
-            <div class="col-6 col-md-4 form-check">
-            <input class="form-check-input" type="checkbox"> Psicológica
-            </div>
-            <div class="col-6 col-md-4 form-check">
-            <input class="form-check-input" type="checkbox"> Sexual
-            </div>
-            <div class="col-6 col-md-4 form-check">
-            <input class="form-check-input" type="checkbox"> Patrimonial
-            </div>
-            <div class="col-6 col-md-4 form-check">
-            <input class="form-check-input" type="checkbox"> Moral
-            </div>
+
+            <% tipo_violencia.forEach(tipo => { %>
+                <div class="col-6 col-md-4 form-check">
+                    <input class="form-check-input" type="checkbox" id="<%= tipo.id_valor %>" name="<%= tipo.valor %>" value="<%= tipo.id_valor %>"> <%= tipo.valor %>
+                </div>
+            <% }) %>
+
         </div>
+
+
+
+
+
 
         <div class="mt-3">
             <label class="form-label">Descreva o ocorrido</label>

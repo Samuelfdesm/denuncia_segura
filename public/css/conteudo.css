@@ -1,0 +1,189 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Helvetica, Arial, sans-serif;
+  background:#f4f1f8;
+  color:#222;
+  line-height:1.8;
+  font-size:18px;
+}
+
+
+header{
+  background:linear-gradient(135deg,#5e2b97,#7b2cbf);
+  color:#fff;
+  text-align:center;
+  padding:50px 20px;
+}
+
+header h1{
+  font-size:46px;
+  margin-bottom:10px;
+}
+
+header p{
+  font-size:19px;
+}
+
+
+nav{
+  background:#3c1361;
+  padding:15px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+nav ul{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:18px;
+  list-style:none;
+  flex-wrap:wrap;
+}
+
+nav a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:bold;
+  font-size:17px;
+  transition:0.3s;
+}
+
+nav a:hover{
+  color:#d9b8ff;
+}
+
+
+main{
+  max-width:1100px;
+  margin:auto;
+  padding:30px 20px;
+}
+
+section{
+  background:#fff;
+  margin:25px 0;
+  padding:35px;
+  border-radius:16px;
+  box-shadow:0 6px 14px rgba(0,0,0,0.08);
+}
+
+
+h2{
+  color:#5e2b97;
+  text-align:center;
+  font-size:34px;
+  margin-bottom:20px;
+}
+
+h3{
+  color:#7b2cbf;
+  font-size:24px;
+  margin-bottom:12px;
+}
+
+
+p{
+  margin-bottom:15px;
+  font-size:18px;
+}
+
+li{
+  margin-left:20px;
+  margin-bottom:8px;
+  font-size:18px;
+}
+
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  margin-top:20px;
+}
+
+
+.card{
+  background:#f8f4fc;
+  padding:20px;
+  border-left:5px solid #7b2cbf;
+  border-radius:12px;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+}
+
+.alerta{
+  background:#fff4f4;
+  border-left:5px solid #c1121f;
+}
+
+.help{
+  background:#eefbf3;
+  border-left:5px solid #2d6a4f;
+}
+
+
+footer{
+  background:#240046;
+  color:#fff;
+  padding:35px 20px;
+  text-align:center;
+}
+
+footer h2{
+  color:#fff;
+}
+
+.fonte{
+  font-size:16px;
+  margin:10px 0;
+}
+
+
+@media(max-width:700px){
+
+  header{
+    padding:35px 15px;
+  }
+
+  header h1{
+    font-size:34px;
+  }
+
+  header p{
+    font-size:16px;
+  }
+
+  h2{
+    font-size:28px;
+  }
+
+  h3{
+    font-size:22px;
+  }
+
+  p, li{
+    font-size:17px;
+  }
+
+  section{
+    padding:25px;
+  }
+
+  nav ul{
+    gap:10px;
+  }
+
+  nav a{
+    font-size:15px;
+  }
+}
