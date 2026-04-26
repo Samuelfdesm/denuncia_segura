@@ -12,184 +12,186 @@
     <div class="container my-4">
 
     <!-- Seção 1 -->
-    <div class="card mb-3 shadow-sm">
-        <div class="card-body">
-        <h5 class="card-title">1. Sobre a ocorrência</h5>
+        <form action="" method="POST">
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                <h5 class="card-title">1. Sobre a ocorrência</h5>
 
-        <label class="form-label">Tipo de violência</label>
-        <div class="row">
+                <label class="form-label">Tipo de violência</label>
+                <div class="row">
 
-            <% tipo_violencia.forEach(tipo => { %>
-                <div class="col-6 col-md-4 form-check">
-                    <input class="form-check-input" type="checkbox" id="<%= tipo.id_valor %>" name="<%= tipo.valor %>" value="<%= tipo.id_valor %>"> <%= tipo.valor %>
+                    <% tipo_violencia.forEach(tipo => { %>
+                        <div class="col-6 col-md-4 form-check">
+                            <input class="form-check-input" type="checkbox" id="<%= tipo.id_valor %>" name="<%= tipo.valor %>" value="<%= tipo.id_valor %>"> <%= tipo.valor %>
+                        </div>
+                    <% }) %>
+
                 </div>
-            <% }) %>
-
-        </div>
 
 
 
 
 
 
-        <div class="mt-3">
-            <label class="form-label">Descreva o ocorrido</label>
-            <textarea class="form-control" rows="4"></textarea>
-        </div>
+                <div class="mt-3">
+                    <label class="form-label">Descreva o ocorrido</label>
+                    <textarea class="form-control" rows="4"></textarea>
+                </div>
 
-        <div class="row mt-3">
-            <div class="col-md-6">
-            <label class="form-label">Data</label>
-            <input type="date" class="form-control">
-            </div>
-            <div class="col-md-6">
-            <label class="form-label">Frequência</label>
-            <select class="form-select">
-                <option>Evento único</option>
-                <option>Recorrente</option>
-            </select>
-            </div>
-        </div>
-        </div>
-    </div>
-
-    <!-- Seção 2 -->
-    <div class="card mb-3 shadow-sm">
-        <div class="card-body">
-        <h5 class="card-title">2. Localização</h5>
-
-        <div class="row">
-            <div class="col-md-6">
-            <label class="form-label">Cidade</label>
-            <input type="text" class="form-control">
-            </div>
-            <div class="col-md-6">
-            <label class="form-label">Bairro</label>
-            <input type="text" class="form-control">
-            </div>
-        </div>
-
-        <div class="mt-3">
-            <label class="form-label">Endereço (opcional)</label>
-            <input type="text" class="form-control">
-        </div>
-
-        <div class="alert alert-warning mt-3">
-            ⚠️ Evite informar endereço exato se isso colocar você em risco.
-        </div>
-        </div>
-    </div>
-
-    <!-- Seção 3 -->
-    <div class="card mb-3 shadow-sm">
-        <div class="card-body">
-        <h5 class="card-title">3. Sobre o agressor</h5>
-
-        <label class="form-label">Relação com a vítima</label>
-        <select class="form-select">
-            <option>Cônjuge/companheiro</option>
-            <option>Ex-companheiro</option>
-            <option>Familiar</option>
-            <option>Outro</option>
-        </select>
-
-        <div class="row mt-3">
-            <div class="col-md-6">
-            <label class="form-label">Está presente agora?</label>
-            <select class="form-select">
-                <option>Sim</option>
-                <option>Não</option>
-            </select>
-            </div>
-            <div class="col-md-6">
-            <label class="form-label">Uso de álcool/drogas</label>
-            <select class="form-select">
-                <option>Sim</option>
-                <option>Não</option>
-                <option>Não sei</option>
-            </select>
-            </div>
-        </div>
-        </div>
-    </div>
-
-    <!-- Seção 4 -->
-    <div class="card mb-3 shadow-sm">
-        <div class="card-body">
-        <h5 class="card-title">4. Nível de risco</h5>
-
-        <div class="row">
-            <div class="col-md-4">
-            <label class="form-label">Risco imediato?</label>
-            <select class="form-select">
-                <option>Sim</option>
-                <option>Não</option>
-            </select>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                    <label class="form-label">Data</label>
+                    <input type="date" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                    <label class="form-label">Frequência</label>
+                    <select class="form-select">
+                        <option>Evento único</option>
+                        <option>Recorrente</option>
+                    </select>
+                    </div>
+                </div>
+                </div>
             </div>
 
-            <div class="col-md-4">
-            <label class="form-label">Crianças/idosos?</label>
-            <select class="form-select">
-                <option>Sim</option>
-                <option>Não</option>
-            </select>
+            <!-- Seção 2 -->
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                <h5 class="card-title">2. Localização</h5>
+
+                <div class="row">
+                    <div class="col-md-6">
+                    <label class="form-label">Cidade</label>
+                    <input type="text" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                    <label class="form-label">Bairro</label>
+                    <input type="text" class="form-control">
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label">Endereço (opcional)</label>
+                    <input type="text" class="form-control">
+                </div>
+
+                <div class="alert alert-warning mt-3">
+                    ⚠️ Evite informar endereço exato se isso colocar você em risco.
+                </div>
+                </div>
             </div>
 
-            <div class="col-md-4">
-            <label class="form-label">Acesso a armas?</label>
-            <select class="form-select">
-                <option>Sim</option>
-                <option>Não</option>
-                <option>Não sei</option>
-            </select>
+            <!-- Seção 3 -->
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                <h5 class="card-title">3. Sobre o agressor</h5>
+
+                <label class="form-label">Relação com a vítima</label>
+                <select class="form-select">
+                    <option>Cônjuge/companheiro</option>
+                    <option>Ex-companheiro</option>
+                    <option>Familiar</option>
+                    <option>Outro</option>
+                </select>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                    <label class="form-label">Está presente agora?</label>
+                    <select class="form-select">
+                        <option>Sim</option>
+                        <option>Não</option>
+                    </select>
+                    </div>
+                    <div class="col-md-6">
+                    <label class="form-label">Uso de álcool/drogas</label>
+                    <select class="form-select">
+                        <option>Sim</option>
+                        <option>Não</option>
+                        <option>Não sei</option>
+                    </select>
+                    </div>
+                </div>
+                </div>
             </div>
-        </div>
-        </div>
-    </div>
 
-    <!-- Seção 5 -->
-    <div class="card mb-3 shadow-sm">
-        <div class="card-body">
-        <h5 class="card-title">5. Contato (opcional)</h5>
+            <!-- Seção 4 -->
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                <h5 class="card-title">4. Nível de risco</h5>
 
-        <label class="form-label">Deseja ser contatado?</label>
-        <select class="form-select">
-            <option>Não</option>
-            <option>Sim</option>
-        </select>
+                <div class="row">
+                    <div class="col-md-4">
+                    <label class="form-label">Risco imediato?</label>
+                    <select class="form-select">
+                        <option>Sim</option>
+                        <option>Não</option>
+                    </select>
+                    </div>
 
-        <div class="row mt-3">
-            <div class="col-md-6">
-            <label class="form-label">Telefone</label>
-            <input type="text" class="form-control">
+                    <div class="col-md-4">
+                    <label class="form-label">Crianças/idosos?</label>
+                    <select class="form-select">
+                        <option>Sim</option>
+                        <option>Não</option>
+                    </select>
+                    </div>
+
+                    <div class="col-md-4">
+                    <label class="form-label">Acesso a armas?</label>
+                    <select class="form-select">
+                        <option>Sim</option>
+                        <option>Não</option>
+                        <option>Não sei</option>
+                    </select>
+                    </div>
+                </div>
+                </div>
             </div>
-            <div class="col-md-6">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control">
+
+            <!-- Seção 5 -->
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                <h5 class="card-title">5. Contato (opcional)</h5>
+
+                <label class="form-label">Deseja ser contatado?</label>
+                <select class="form-select">
+                    <option>Não</option>
+                    <option>Sim</option>
+                </select>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                    <label class="form-label">Telefone</label>
+                    <input type="text" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control">
+                    </div>
+                </div>
+                </div>
             </div>
-        </div>
-        </div>
-    </div>
 
-    <!-- Seção 6 -->
-    <div class="card mb-3 shadow-sm">
-        <div class="card-body">
-        <h5 class="card-title">6. Confirmação</h5>
+            <!-- Seção 6 -->
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                <h5 class="card-title">6. Confirmação</h5>
 
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox">
-            <label class="form-check-label">
-            Estou ciente de que a denúncia poderá ser encaminhada para órgãos competentes.
-            </label>
-        </div>
-        </div>
-    </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox">
+                    <label class="form-check-label">
+                    Estou ciente de que a denúncia poderá ser encaminhada para órgãos competentes.
+                    </label>
+                </div>
+                </div>
+            </div>
 
-    <button class="btn btn-danger w-100 py-3">Enviar denúncia</button>
+            <button class="btn btn-danger w-100 py-3">Enviar denúncia</button>
 
-    <p class="text-center text-muted mt-3 small">
-        Este sistema prioriza sua segurança e anonimato.
-    </p>
+            <p class="text-center text-muted mt-3 small">
+                Este sistema prioriza sua segurança e anonimato.
+            </p>
+        </form>
 
     </div>
 
