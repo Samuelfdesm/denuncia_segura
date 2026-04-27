@@ -10,7 +10,30 @@
 
 <div class="container my-4">
 
-<form action="/form-denuncia" method="POST">
+<!-- ✅ SUCESSO -->
+<% if (sucesso) { %>
+    <div class="alert alert-success">
+        <%= sucesso %>
+    </div>
+<% } %>
+
+<!-- ✅ ERROS -->
+<% if (Array.isArray(erros) && erros.length > 0) { %>
+    <div class="alert alert-danger">
+        <strong>Corrija os seguintes erros:</strong>
+        <ul class="mb-0 mt-2">
+            <% erros.forEach(erro => { %>
+                <li><%= erro.texto %></li>
+            <% }) %>
+        </ul>
+    </div>
+
+    <script>
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    </script>
+<% } %>
+
+<form action="/form-denuncia" method="POST" novalidate>
 
 <!-- 1. Sobre a ocorrência -->
 <div class="card mb-3 shadow-sm">
@@ -18,43 +41,52 @@
 <h5 class="card-title mb-3">1. Sobre a ocorrência</h5>
 
 <div class="mb-3">
-    <label class="form-label">Tipo de violência</label>
-    <div class="row mt-2">
-        <% tipo_violencia.forEach(tipo => { %>
-            <div class="col-6 col-md-4">
-                <div class="form-check ms-2">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           name="tipos_violencia"
-                           value="<%= tipo.id_valor %>">
-                    <label class="form-check-label">
-                        <%= tipo.valor %>
-                    </label>
-                </div>
-            </div>
-        <% }) %>
-    </div>
+<label class="form-label">Tipo de violência</label>
+<div class="row mt-2">
+<% tipo_violencia.forEach(tipo => { %>
+<div class="col-6 col-md-4">
+<div class="form-check ms-2">
+<input class="form-check-input"
+type="checkbox"
+name="tipos_violencia"
+value="<%= tipo.id_valor %>"
+<%= Array.isArray(dadosForm?.tipos_violencia)
+    ? dadosForm.tipos_violencia.includes(String(tipo.id_valor)) ? "checked" : ""
+    : dadosForm?.tipos_violencia == tipo.id_valor ? "checked" : ""
+%>>
+
+<label class="form-check-label">
+<%= tipo.valor %>
+</label>
+</div>
+</div>
+<% }) %>
+</div>
 </div>
 
 <div class="mb-3">
-    <label class="form-label">Descreva o ocorrido</label>
-    <textarea class="form-control" name="descricao" rows="4" required></textarea>
+<label class="form-label">Descreva o ocorrido</label>
+<textarea class="form-control" name="descricao" rows="4"><%= dadosForm?.descricao || "" %></textarea>
 </div>
 
 <div class="row">
-    <div class="col-md-6 mb-3">
-        <label class="form-label">Data</label>
-        <input type="date" name="data_ocorrencia" class="form-control" required>
-    </div>
+<div class="col-md-6 mb-3">
+<label class="form-label">Data</label>
+<input type="date" name="data_ocorrencia" class="form-control"
+value="<%= dadosForm?.data_ocorrencia || "" %>">
+</div>
 
-    <div class="col-md-6 mb-3">
-        <label class="form-label">Frequência</label>
-        <select class="form-select" name="frequencia" required>
-            <% frequencia.forEach(f => { %>
-                <option value="<%= f.id_valor %>"><%= f.valor %></option>
-            <% }) %>
-        </select>
-    </div>
+<div class="col-md-6 mb-3">
+<label class="form-label">Frequência</label>
+<select class="form-select" name="frequencia">
+<% frequencia.forEach(f => { %>
+<option value="<%= f.id_valor %>"
+<%= dadosForm?.frequencia == f.id_valor ? "selected" : "" %>>
+<%= f.valor %>
+</option>
+<% }) %>
+</select>
+</div>
 </div>
 
 </div>
@@ -66,20 +98,23 @@
 <h5 class="card-title mb-3">2. Localização</h5>
 
 <div class="row">
-    <div class="col-md-6 mb-3">
-        <label class="form-label">Cidade</label>
-        <input type="text" name="cidade" class="form-control">
-    </div>
+<div class="col-md-6 mb-3">
+<label class="form-label">Cidade</label>
+<input type="text" name="cidade" class="form-control"
+value="<%= dadosForm?.cidade || "" %>">
+</div>
 
-    <div class="col-md-6 mb-3">
-        <label class="form-label">Bairro</label>
-        <input type="text" name="bairro" class="form-control">
-    </div>
+<div class="col-md-6 mb-3">
+<label class="form-label">Bairro</label>
+<input type="text" name="bairro" class="form-control"
+value="<%= dadosForm?.bairro || "" %>">
+</div>
 </div>
 
 <div class="mb-3">
-    <label class="form-label">Endereço (opcional)</label>
-    <input type="text" name="endereco" class="form-control">
+<label class="form-label">Endereço (opcional)</label>
+<input type="text" name="endereco" class="form-control"
+value="<%= dadosForm?.endereco || "" %>">
 </div>
 
 </div>
@@ -91,31 +126,37 @@
 <h5 class="card-title mb-3">3. Sobre o agressor</h5>
 
 <div class="mb-3">
-    <label class="form-label">Relação com a vítima</label>
-    <select class="form-select" name="relacao_vitima" required>
-        <% relacao_vitima.forEach(r => { %>
-            <option value="<%= r.id_valor %>"><%= r.valor %></option>
-        <% }) %>
-    </select>
+<label class="form-label">Relação com a vítima</label>
+<select class="form-select" name="relacao_vitima">
+<% relacao_vitima.forEach(r => { %>
+<option value="<%= r.id_valor %>"
+<%= dadosForm?.relacao_vitima == r.id_valor ? "selected" : "" %>>
+<%= r.valor %>
+</option>
+<% }) %>
+</select>
 </div>
 
 <div class="row">
-    <div class="col-md-6 mb-3">
-        <label class="form-label">Está presente?</label>
-        <select name="agressor_presente" class="form-select">
-            <option value="1">Sim</option>
-            <option value="0">Não</option>
-        </select>
-    </div>
+<div class="col-md-6 mb-3">
+<label class="form-label">Está presente?</label>
+<select name="agressor_presente" class="form-select">
+<option value="1" <%= dadosForm?.agressor_presente == "1" ? "selected" : "" %>>Sim</option>
+<option value="0" <%= dadosForm?.agressor_presente == "0" ? "selected" : "" %>>Não</option>
+</select>
+</div>
 
-    <div class="col-md-6 mb-3">
-        <label class="form-label">Álcool/Drogas</label>
-        <select name="usa_alcool_drogas" class="form-select">
-            <% usa_alcool_drogas.forEach(u => { %>
-                <option value="<%= u.id_valor %>"><%= u.valor %></option>
-            <% }) %>
-        </select>
-    </div>
+<div class="col-md-6 mb-3">
+<label class="form-label">Álcool/Drogas</label>
+<select name="usa_alcool_drogas" class="form-select">
+<% usa_alcool_drogas.forEach(u => { %>
+<option value="<%= u.id_valor %>"
+<%= dadosForm?.usa_alcool_drogas == u.id_valor ? "selected" : "" %>>
+<%= u.valor %>
+</option>
+<% }) %>
+</select>
+</div>
 </div>
 
 </div>
@@ -127,30 +168,33 @@
 <h5 class="card-title mb-3">4. Nível de risco</h5>
 
 <div class="row">
-    <div class="col-md-4 mb-3">
-        <label class="form-label">Risco imediato</label>
-        <select name="risco_imediato" class="form-select">
-            <option value="1">Sim</option>
-            <option value="0">Não</option>
-        </select>
-    </div>
+<div class="col-md-4 mb-3">
+<label class="form-label">Risco imediato</label>
+<select name="risco_imediato" class="form-select">
+<option value="1" <%= dadosForm?.risco_imediato == "1" ? "selected" : "" %>>Sim</option>
+<option value="0" <%= dadosForm?.risco_imediato == "0" ? "selected" : "" %>>Não</option>
+</select>
+</div>
 
-    <div class="col-md-4 mb-3">
-        <label class="form-label">Criança/Idoso</label>
-        <select name="crianca_idoso" class="form-select">
-            <option value="1">Sim</option>
-            <option value="0">Não</option>
-        </select>
-    </div>
+<div class="col-md-4 mb-3">
+<label class="form-label">Criança/Idoso</label>
+<select name="crianca_idoso" class="form-select">
+<option value="1" <%= dadosForm?.crianca_idoso == "1" ? "selected" : "" %>>Sim</option>
+<option value="0" <%= dadosForm?.crianca_idoso == "0" ? "selected" : "" %>>Não</option>
+</select>
+</div>
 
-    <div class="col-md-4 mb-3">
-        <label class="form-label">Acesso a armas</label>
-        <select name="existe_acesso_armas" class="form-select">
-            <% existe_acesso_armas.forEach(a => { %>
-                <option value="<%= a.id_valor %>"><%= a.valor %></option>
-            <% }) %>
-        </select>
-    </div>
+<div class="col-md-4 mb-3">
+<label class="form-label">Acesso a armas</label>
+<select name="existe_acesso_armas" class="form-select">
+<% existe_acesso_armas.forEach(a => { %>
+<option value="<%= a.id_valor %>"
+<%= dadosForm?.existe_acesso_armas == a.id_valor ? "selected" : "" %>>
+<%= a.valor %>
+</option>
+<% }) %>
+</select>
+</div>
 </div>
 
 </div>
@@ -162,22 +206,25 @@
 <h5 class="card-title mb-3">5. Contato (opcional)</h5>
 
 <div class="mb-3">
-    <label class="form-label">Deseja contato?</label>
-    <select name="deseja_contato" class="form-select">
-        <option value="0">Não</option>
-        <option value="1">Sim</option>
-    </select>
+<label class="form-label">Deseja contato?</label>
+<select name="deseja_contato" class="form-select">
+<option value="0" <%= dadosForm?.deseja_contato == "0" ? "selected" : "" %>>Não</option>
+<option value="1" <%= dadosForm?.deseja_contato == "1" ? "selected" : "" %>>Sim</option>
+</select>
 </div>
 
 <div class="row">
-    <div class="col-md-6 mb-3">
-        <label class="form-label">Telefone</label>
-        <input type="text" name="telefone" class="form-control">
-    </div>
-    <div class="col-md-6 mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" name="email" class="form-control">
-    </div>
+<div class="col-md-6 mb-3">
+<label class="form-label">Telefone</label>
+<input type="text" name="telefone" class="form-control"
+value="<%= dadosForm?.telefone || "" %>">
+</div>
+
+<div class="col-md-6 mb-3">
+<label class="form-label">Email</label>
+<input type="email" name="email" class="form-control"
+value="<%= dadosForm?.email || "" %>">
+</div>
 </div>
 
 </div>
@@ -189,10 +236,15 @@
 <h5 class="card-title mb-3">6. Confirmação</h5>
 
 <div class="form-check">
-    <input class="form-check-input" type="checkbox" name="confirmacao" value="1" required>
-    <label class="form-check-label">
-        Confirmo que as informações são verdadeiras
-    </label>
+<input class="form-check-input"
+type="checkbox"
+name="confirmacao"
+value="1"
+<%= dadosForm?.confirmacao ? "checked" : "" %>>
+
+<label class="form-check-label">
+Confirmo que as informações são verdadeiras
+</label>
 </div>
 
 </div>

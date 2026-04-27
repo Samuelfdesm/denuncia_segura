@@ -2,17 +2,17 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const denuncia = require("./engine/denuncia"); //Database
+const denuncia = require("./engine/denuncia");
 
-// Estou dizendo para o Express usar o EJS como View Engine
+// View engine
 app.set('view engine','ejs');
 app.use(express.static('public'));
 
-//Body parser
+// Body parser
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-//Sessões no Express
+// Sessão
 app.use(
     session({
         secret: "Dados do visitante",
@@ -20,23 +20,11 @@ app.use(
         saveUninitialized: true,
         cookie: {secure: false}
     })
-)
+);
 
-
-//Rotas
-
-app.get("/conteudo", (req, res) => {
-    res.render("conteudo");
-});
-
-// app.get("/form-denuncia", async (req, res) => {
-//     const tipo_violencia = await denuncia.valores_tipo_violencia();
-
-//     res.render("form-denuncia", {
-//         tipo_violencia: tipo_violencia
-//     });
-
-// });
+// =========================
+// FORM GET
+// =========================
 
 app.get("/form-denuncia", async (req, res) => {
     try {
@@ -54,12 +42,18 @@ app.get("/form-denuncia", async (req, res) => {
             denuncia.valores_existe_acesso_armas()
         ]);
 
+        const sucesso = req.session.sucesso;
+        req.session.sucesso = null;
+
         res.render("form-denuncia", {
             tipo_violencia,
             frequencia,
             relacao_vitima,
             usa_alcool_drogas,
-            existe_acesso_armas
+            existe_acesso_armas,
+            sucesso,
+            erros: null,
+            dadosForm: {}
         });
 
     } catch (error) {
@@ -68,8 +62,70 @@ app.get("/form-denuncia", async (req, res) => {
     }
 });
 
+// =========================
+// FORM POST
+// =========================
+
 app.post("/form-denuncia", async (req, res) => {
+
+    let erros = [];
+
+    const invalido = (campo) => {
+        return !campo || campo === undefined || campo === null || campo === "";
+    };
+
+    // Validações
+    if (invalido(req.body.descricao)) erros.push({ texto: "Descrição inválida." });
+    if (invalido(req.body.data_ocorrencia)) erros.push({ texto: "Data inválida." });
+    if (invalido(req.body.frequencia)) erros.push({ texto: "Frequência inválida." });
+    if (invalido(req.body.relacao_vitima)) erros.push({ texto: "Relação com a vítima inválida." });
+    if (invalido(req.body.usa_alcool_drogas)) erros.push({ texto: "Uso de álcool/drogas inválido." });
+    if (invalido(req.body.existe_acesso_armas)) erros.push({ texto: "Acesso a armas inválido." });
+
+    if (invalido(req.body.tipos_violencia)) {
+        erros.push({ texto: "Selecione ao menos um tipo de violência." });
+    }
+
+    if (!req.body.confirmacao) {
+        erros.push({ texto: "Você precisa confirmar a denúncia." });
+    }
+
+    // =========================
+    // SE TIVER ERRO
+    // =========================
+    if (erros.length > 0) {
+
+        const [
+            tipo_violencia,
+            frequencia,
+            relacao_vitima,
+            usa_alcool_drogas,
+            existe_acesso_armas
+        ] = await Promise.all([
+            denuncia.valores_tipo_violencia(),
+            denuncia.valores_frequencia(),
+            denuncia.valores_relacao_vitima(),
+            denuncia.valores_usa_alcool_drogas(),
+            denuncia.valores_existe_acesso_armas()
+        ]);
+
+        return res.render("form-denuncia", {
+            erros,
+            sucesso: null,
+            dadosForm: req.body, // 🔥 mantém dados
+            tipo_violencia,
+            frequencia,
+            relacao_vitima,
+            usa_alcool_drogas,
+            existe_acesso_armas
+        });
+    }
+
+    // =========================
+    // SUCESSO
+    // =========================
     try {
+
         const dados = {
             descricao: req.body.descricao,
             data_ocorrencia: req.body.data_ocorrencia,
@@ -86,24 +142,26 @@ app.post("/form-denuncia", async (req, res) => {
             deseja_contato: req.body.deseja_contato === "1",
             telefone: req.body.telefone,
             email: req.body.email,
-            confirmacao: req.body.confirmacao === "1",
-
-            // Pode vir como string ou array dependendo do form
+            confirmacao: true,
             tipos_violencia: Array.isArray(req.body.tipos_violencia)
                 ? req.body.tipos_violencia
                 : [req.body.tipos_violencia]
         };
 
-        const id = await denuncia.inserir_ocorrencia(dados);
+        await denuncia.inserir_ocorrencia(dados);
 
-        res.redirect(`/sucesso?id=${id}`);
+        req.session.sucesso = "Denúncia registrada com sucesso!";
+        res.redirect("/form-denuncia");
 
     } catch (error) {
         console.error(error);
         res.status(500).send("Erro ao registrar ocorrência");
     }
+
 });
 
-app.listen(3000, "0.0.0.0", () => {console.log("App rodando!");});
+// =========================
 
-
+app.listen(3000, "0.0.0.0", () => {
+    console.log("App rodando!");
+});
