@@ -162,6 +162,14 @@ app.post("/form-denuncia", async (req, res) => {
 
 // =========================
 
+
+app.get("/conteudo", async (req, res) => {
+    res.render("conteudo");
+})
+
+
+// =========================
+
 app.listen(3000, "0.0.0.0", () => {
     console.log("App rodando!");
 });
