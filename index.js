@@ -165,6 +165,7 @@ app.post("/form-denuncia", async (req, res) => {
 
 app.get("/conteudo", async (req, res) => {
     res.render("conteudo");
+    
 })
 
 
