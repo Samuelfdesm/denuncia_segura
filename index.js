@@ -6,6 +6,16 @@ const denuncia = require("./engine/denuncia");
 
 // View engine
 app.set('view engine','ejs');
+
+app.use((req, res, next) => {
+    res.set({
+        'Cache-Control': 'no-store, no-cache, must-revalidate, private',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+    });
+    next();
+});
+
 app.use(express.static('public'));
 
 // Body parser
