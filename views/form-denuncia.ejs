@@ -1,7 +1,8 @@
 <%- include('partials/header.ejs'); %>
 <%- include('partials/navbar.ejs'); %>
 
-<a href="https://www.google.com" class="btn btn-dark quick-exit">Sair rápido</a>
+<!-- <a href="https://www.google.com" class="btn btn-dark quick-exit">Sair rápido</a> -->
+<a href="#" class="btn btn-dark quick-exit" onclick="sairRapido()">Sair rápido</a>
 
 <header>
     <h1 class="h4">Denúncia Anônima</h1>
@@ -254,5 +255,22 @@ Confirmo que as informações são verdadeiras
 
 </form>
 </div>
+
+<script>
+function sairRapido() {
+    // 🔥 limpa dados locais
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // (opcional) limpar cookies básicos
+    document.cookie.split(";").forEach(function(c) {
+        document.cookie = c.replace(/^ +/, "")
+            .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
+
+    // 🚀 redireciona sem deixar histórico
+    window.location.replace("https://www.google.com");
+}
+</script>
 
 <%- include('partials/footer.ejs'); %>
