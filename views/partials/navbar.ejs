@@ -1,0 +1,77 @@
+<%
+const pagina = typeof paginaAtual !== "undefined" ? paginaAtual : "";
+const linksMenu = pagina === "form-denuncia"
+  ? [
+      { href: "/form-denuncia", texto: "Formulário", ativa: true },
+      { href: "#formulario-denuncia", texto: "Preencher" },
+      { href: "/conteudo", texto: "Ver orientações" }
+    ]
+  : [
+      { href: "/conteudo", texto: "Conteúdo", ativa: true },
+      { href: "#sinais", texto: "Sinais" },
+      { href: "#ajuda", texto: "Ajuda" },
+      { href: "/form-denuncia", texto: "Fazer denúncia" }
+    ];
+%>
+
+<div class="barra-navegacao">
+  <div class="conteudo-largura conteudo-navegacao">
+    <a class="marca-site" href="/conteudo" aria-label="Ir para a página de conteúdo">
+      <span class="marca-site__selo">Denúncia segura</span>
+      <span class="marca-site__nome">Informação e acolhimento para mulheres</span>
+    </a>
+
+    <div class="acoes-navegacao">
+      <a
+        href="https://www.google.com"
+        class="botao-saida-rapida"
+        data-saida-rapida
+        rel="noreferrer"
+      >
+        Sair rápido
+      </a>
+
+      <button
+        class="botao-menu"
+        type="button"
+        aria-expanded="false"
+        aria-controls="menu-principal"
+        aria-label="Abrir menu de navegação"
+        data-menu-abrir
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div class="painel-menu" id="menu-principal" data-menu-principal>
+      <div class="cabecalho-menu-movel">
+        <p class="titulo-menu-movel">Navegação</p>
+        <button
+          class="botao-fechar-menu"
+          type="button"
+          aria-label="Fechar menu de navegação"
+          data-menu-fechar
+        >
+          Fechar
+        </button>
+      </div>
+
+      <div class="links-menu">
+        <% linksMenu.forEach((link) => { %>
+          <a
+            href="<%= link.href %>"
+            class="link-menu <%= link.ativa ? 'link-menu--ativo' : '' %>"
+            data-link-menu
+            <% if (link.ativa) { %>aria-current="page"<% } %>
+          >
+            <%= link.texto %>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="fundo-menu" data-fundo-menu hidden></div>

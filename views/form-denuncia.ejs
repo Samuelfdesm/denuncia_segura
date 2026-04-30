@@ -1,258 +1,345 @@
-<%- include('partials/header.ejs'); %>
-<%- include('partials/navbar.ejs'); %>
+<%
+const dados = dadosForm || {};
+const hoje = new Date().toISOString().split("T")[0];
+const tiposSelecionados = Array.isArray(dados.tipos_violencia)
+  ? dados.tipos_violencia.map(String)
+  : dados.tipos_violencia
+    ? [String(dados.tipos_violencia)]
+    : [];
+%>
 
-<a href="https://www.google.com" class="btn btn-dark quick-exit">Sair rápido</a>
+<%- include('partials/header', { tituloPagina: 'Fazer denúncia | Denúncia Segura', classePagina: 'pagina-formulario' }); %>
+<%- include('partials/navbar', { paginaAtual: 'form-denuncia' }); %>
 
-<header>
-    <h1 class="h4">Denúncia Anônima</h1>
-    <p class="mb-0">Seu relato é seguro e pode salvar vidas</p>
-</header>
+<section class="hero-pagina" id="inicio-formulario">
+  <div class="conteudo-largura">
+    <div class="cartao-hero">
+      <div class="conteudo-hero">
+        <div class="bloco-hero-principal">
+          <span class="selo-hero">Denúncia anônima</span>
+          <h1 class="titulo-hero">
+            Relate o que aconteceu com calma e segurança.
+          </h1>
+          <p class="texto-hero">
+            Se houver risco imediato, ligue 190.
+          </p>
 
-<div class="container my-4">
+          <div class="acoes-hero">
+            <a href="#formulario-denuncia" class="botao-primario">Começar denúncia</a>
+          </div>
+        </div>
 
-<!-- ✅ SUCESSO -->
-<% if (sucesso) { %>
-    <div class="alert alert-success">
-        <%= sucesso %>
+        <div class="coluna-hero-secundaria cartao-hero-apoio">
+          <ul class="lista-pilares">
+            <li>Relato anônimo</li>
+            <li>Preenchimento direto</li>
+            <li>Contato opcional</li>
+          </ul>
+        </div>
+      </div>
     </div>
-<% } %>
+  </div>
+</section>
 
-<!-- ✅ ERROS -->
-<% if (Array.isArray(erros) && erros.length > 0) { %>
-    <div class="alert alert-danger">
-        <strong>Corrija os seguintes erros:</strong>
-        <ul class="mb-0 mt-2">
-            <% erros.forEach(erro => { %>
-                <li><%= erro.texto %></li>
+<main class="conteudo-principal">
+  <section class="secao-pagina" id="formulario-denuncia">
+    <div class="conteudo-largura">
+      <% if (sucesso) { %>
+        <div class="alert alert-success mb-4">
+          <%= sucesso %>
+        </div>
+      <% } %>
+
+      <% if (Array.isArray(erros) && erros.length > 0) { %>
+        <div class="alert alert-danger mb-4">
+          <strong>Corrija os pontos abaixo:</strong>
+          <ul class="mb-0 mt-2">
+            <% erros.forEach((erro) => { %>
+              <li><%= erro.texto %></li>
             <% }) %>
-        </ul>
+          </ul>
+        </div>
+      <% } %>
+
+      <form action="/form-denuncia" method="POST" autocomplete="off" data-formulario-denuncia>
+        <div class="faixa-formulario">
+          <section class="cartao-etapa">
+            <div class="linha-titulo-etapa">
+              <span class="numero-etapa">1</span>
+              <h2>Ocorrência</h2>
+            </div>
+
+            <div class="grupo-opcoes">
+              <label class="form-label">Tipo de violência</label>
+
+              <div class="grade-opcoes">
+                <% tipo_violencia.forEach((tipo) => { %>
+                  <label class="opcao-marcavel">
+                    <input
+                      class="opcao-marcavel__campo"
+                      type="checkbox"
+                      name="tipos_violencia"
+                      value="<%= tipo.id_valor %>"
+                      <%= tiposSelecionados.includes(String(tipo.id_valor)) ? "checked" : "" %>
+                    >
+                    <span class="opcao-marcavel__texto"><%= tipo.valor %></span>
+                  </label>
+                <% }) %>
+              </div>
+            </div>
+
+            <div class="grade-campos mt-4">
+              <div class="grid-larga">
+                <label for="descricao" class="form-label">Descreva o ocorrido</label>
+                <textarea
+                  id="descricao"
+                  class="form-control"
+                  name="descricao"
+                  rows="5"
+                  required
+                  placeholder="Conte o que aconteceu."
+                ><%= dados.descricao || "" %></textarea>
+              </div>
+
+              <div>
+                <label for="data_ocorrencia" class="form-label">Data da ocorrência</label>
+                <input
+                  id="data_ocorrencia"
+                  type="date"
+                  name="data_ocorrencia"
+                  class="form-control"
+                  value="<%= dados.data_ocorrencia || "" %>"
+                  max="<%= hoje %>"
+                  required
+                >
+              </div>
+
+              <div>
+                <label for="frequencia" class="form-label">Frequência</label>
+                <select id="frequencia" class="form-select" name="frequencia" required>
+                  <option value="" disabled <%= !dados.frequencia ? "selected" : "" %>>Selecione</option>
+                  <% frequencia.forEach((item) => { %>
+                    <option
+                      value="<%= item.id_valor %>"
+                      <%= dados.frequencia == item.id_valor ? "selected" : "" %>
+                    >
+                      <%= item.valor %>
+                    </option>
+                  <% }) %>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="cartao-etapa">
+            <div class="linha-titulo-etapa">
+              <span class="numero-etapa">2</span>
+              <h2>Local</h2>
+            </div>
+
+            <div class="grade-campos">
+              <div>
+                <label for="cidade" class="form-label">Cidade</label>
+                <input
+                  id="cidade"
+                  type="text"
+                  name="cidade"
+                  class="form-control"
+                  value="<%= dados.cidade || "" %>"
+                  placeholder="Cidade"
+                >
+              </div>
+
+              <div>
+                <label for="bairro" class="form-label">Bairro</label>
+                <input
+                  id="bairro"
+                  type="text"
+                  name="bairro"
+                  class="form-control"
+                  value="<%= dados.bairro || "" %>"
+                  placeholder="Bairro"
+                >
+              </div>
+
+              <div class="grid-larga">
+                <label for="endereco" class="form-label">Endereço aproximado</label>
+                <input
+                  id="endereco"
+                  type="text"
+                  name="endereco"
+                  class="form-control"
+                  value="<%= dados.endereco || "" %>"
+                  placeholder="Rua ou referência"
+                >
+              </div>
+            </div>
+          </section>
+
+          <section class="cartao-etapa">
+            <div class="linha-titulo-etapa">
+              <span class="numero-etapa">3</span>
+              <h2>Sobre o agressor</h2>
+            </div>
+
+            <div class="grade-campos">
+              <div class="grid-larga">
+                <label for="relacao_vitima" class="form-label">Relação com a vítima</label>
+                <select id="relacao_vitima" class="form-select" name="relacao_vitima" required>
+                  <option value="" disabled <%= !dados.relacao_vitima ? "selected" : "" %>>Selecione</option>
+                  <% relacao_vitima.forEach((item) => { %>
+                    <option
+                      value="<%= item.id_valor %>"
+                      <%= dados.relacao_vitima == item.id_valor ? "selected" : "" %>
+                    >
+                      <%= item.valor %>
+                    </option>
+                  <% }) %>
+                </select>
+              </div>
+
+              <div>
+                <label for="agressor_presente" class="form-label">Está presente agora?</label>
+                <select id="agressor_presente" name="agressor_presente" class="form-select" required>
+                  <option value="" disabled <%= dados.agressor_presente === undefined || dados.agressor_presente === "" ? "selected" : "" %>>Selecione</option>
+                  <option value="1" <%= dados.agressor_presente == "1" ? "selected" : "" %>>Sim</option>
+                  <option value="0" <%= dados.agressor_presente == "0" ? "selected" : "" %>>Não</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="usa_alcool_drogas" class="form-label">Uso de álcool ou drogas?</label>
+                <select id="usa_alcool_drogas" name="usa_alcool_drogas" class="form-select" required>
+                  <option value="" disabled <%= !dados.usa_alcool_drogas ? "selected" : "" %>>Selecione</option>
+                  <% usa_alcool_drogas.forEach((item) => { %>
+                    <option
+                      value="<%= item.id_valor %>"
+                      <%= dados.usa_alcool_drogas == item.id_valor ? "selected" : "" %>
+                    >
+                      <%= item.valor %>
+                    </option>
+                  <% }) %>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="cartao-etapa">
+            <div class="linha-titulo-etapa">
+              <span class="numero-etapa">4</span>
+              <h2>Nível de risco</h2>
+            </div>
+
+            <div class="grade-campos grade-campos--tripla">
+              <div>
+                <label for="risco_imediato" class="form-label">Risco imediato?</label>
+                <select id="risco_imediato" name="risco_imediato" class="form-select" required>
+                  <option value="" disabled <%= dados.risco_imediato === undefined || dados.risco_imediato === "" ? "selected" : "" %>>Selecione</option>
+                  <option value="1" <%= dados.risco_imediato == "1" ? "selected" : "" %>>Sim</option>
+                  <option value="0" <%= dados.risco_imediato == "0" ? "selected" : "" %>>Não</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="crianca_idoso" class="form-label">Criança ou idoso?</label>
+                <select id="crianca_idoso" name="crianca_idoso" class="form-select" required>
+                  <option value="" disabled <%= dados.crianca_idoso === undefined || dados.crianca_idoso === "" ? "selected" : "" %>>Selecione</option>
+                  <option value="1" <%= dados.crianca_idoso == "1" ? "selected" : "" %>>Sim</option>
+                  <option value="0" <%= dados.crianca_idoso == "0" ? "selected" : "" %>>Não</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="existe_acesso_armas" class="form-label">Existe acesso a armas?</label>
+                <select id="existe_acesso_armas" name="existe_acesso_armas" class="form-select" required>
+                  <option value="" disabled <%= !dados.existe_acesso_armas ? "selected" : "" %>>Selecione</option>
+                  <% existe_acesso_armas.forEach((item) => { %>
+                    <option
+                      value="<%= item.id_valor %>"
+                      <%= dados.existe_acesso_armas == item.id_valor ? "selected" : "" %>
+                    >
+                      <%= item.valor %>
+                    </option>
+                  <% }) %>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="cartao-etapa">
+            <div class="linha-titulo-etapa">
+              <span class="numero-etapa">5</span>
+              <h2>Contato</h2>
+            </div>
+
+            <div class="grade-campos">
+              <div class="grid-larga">
+                <label for="deseja_contato" class="form-label">Deseja ser contatada?</label>
+                <select
+                  id="deseja_contato"
+                  name="deseja_contato"
+                  class="form-select"
+                  data-seletor-contato
+                >
+                  <option value="0" <%= dados.deseja_contato == "0" || !dados.deseja_contato ? "selected" : "" %>>Não desejo contato</option>
+                  <option value="1" <%= dados.deseja_contato == "1" ? "selected" : "" %>>Sim, desejo contato</option>
+                </select>
+              </div>
+            </div>
+
+            <div
+              class="grade-campos campos-contato mt-3"
+              data-campos-contato
+              <%= dados.deseja_contato == "1" ? "" : "hidden" %>
+            >
+              <div>
+                <label for="telefone" class="form-label">Telefone</label>
+                <input
+                  id="telefone"
+                  type="tel"
+                  name="telefone"
+                  class="form-control"
+                  value="<%= dados.telefone || "" %>"
+                  placeholder="Telefone"
+                >
+              </div>
+
+              <div>
+                <label for="email" class="form-label">Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  value="<%= dados.email || "" %>"
+                  placeholder="Email"
+                >
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="secao-envio mt-4">
+          <div class="form-check">
+            <input
+              id="confirmacao"
+              class="form-check-input"
+              type="checkbox"
+              name="confirmacao"
+              value="1"
+              <%= dados.confirmacao ? "checked" : "" %>
+              required
+            >
+            <label class="form-check-label" for="confirmacao">
+              Confirmo que as informações são verdadeiras.
+            </label>
+          </div>
+
+          <button class="botao-acao" type="submit">Enviar denúncia</button>
+        </section>
+      </form>
     </div>
+  </section>
+</main>
 
-    <script>
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    </script>
-<% } %>
-
-<form action="/form-denuncia" method="POST" novalidate>
-
-<!-- 1. Sobre a ocorrência -->
-<div class="card mb-3 shadow-sm">
-<div class="card-body">
-<h5 class="card-title mb-3">1. Sobre a ocorrência</h5>
-
-<div class="mb-3">
-<label class="form-label">Tipo de violência</label>
-<div class="row mt-2">
-<% tipo_violencia.forEach(tipo => { %>
-<div class="col-6 col-md-4">
-<div class="form-check ms-2">
-<input class="form-check-input"
-type="checkbox"
-name="tipos_violencia"
-value="<%= tipo.id_valor %>"
-<%= Array.isArray(dadosForm?.tipos_violencia)
-    ? dadosForm.tipos_violencia.includes(String(tipo.id_valor)) ? "checked" : ""
-    : dadosForm?.tipos_violencia == tipo.id_valor ? "checked" : ""
-%>>
-
-<label class="form-check-label">
-<%= tipo.valor %>
-</label>
-</div>
-</div>
-<% }) %>
-</div>
-</div>
-
-<div class="mb-3">
-<label class="form-label">Descreva o ocorrido</label>
-<textarea class="form-control" name="descricao" rows="4"><%= dadosForm?.descricao || "" %></textarea>
-</div>
-
-<div class="row">
-<div class="col-md-6 mb-3">
-<label class="form-label">Data</label>
-<input type="date" name="data_ocorrencia" class="form-control"
-value="<%= dadosForm?.data_ocorrencia || "" %>">
-</div>
-
-<div class="col-md-6 mb-3">
-<label class="form-label">Frequência</label>
-<select class="form-select" name="frequencia">
-<% frequencia.forEach(f => { %>
-<option value="<%= f.id_valor %>"
-<%= dadosForm?.frequencia == f.id_valor ? "selected" : "" %>>
-<%= f.valor %>
-</option>
-<% }) %>
-</select>
-</div>
-</div>
-
-</div>
-</div>
-
-<!-- 2. Localização -->
-<div class="card mb-3 shadow-sm">
-<div class="card-body">
-<h5 class="card-title mb-3">2. Localização</h5>
-
-<div class="row">
-<div class="col-md-6 mb-3">
-<label class="form-label">Cidade</label>
-<input type="text" name="cidade" class="form-control"
-value="<%= dadosForm?.cidade || "" %>">
-</div>
-
-<div class="col-md-6 mb-3">
-<label class="form-label">Bairro</label>
-<input type="text" name="bairro" class="form-control"
-value="<%= dadosForm?.bairro || "" %>">
-</div>
-</div>
-
-<div class="mb-3">
-<label class="form-label">Endereço (opcional)</label>
-<input type="text" name="endereco" class="form-control"
-value="<%= dadosForm?.endereco || "" %>">
-</div>
-
-</div>
-</div>
-
-<!-- 3. Agressor -->
-<div class="card mb-3 shadow-sm">
-<div class="card-body">
-<h5 class="card-title mb-3">3. Sobre o agressor</h5>
-
-<div class="mb-3">
-<label class="form-label">Relação com a vítima</label>
-<select class="form-select" name="relacao_vitima">
-<% relacao_vitima.forEach(r => { %>
-<option value="<%= r.id_valor %>"
-<%= dadosForm?.relacao_vitima == r.id_valor ? "selected" : "" %>>
-<%= r.valor %>
-</option>
-<% }) %>
-</select>
-</div>
-
-<div class="row">
-<div class="col-md-6 mb-3">
-<label class="form-label">Está presente?</label>
-<select name="agressor_presente" class="form-select">
-<option value="1" <%= dadosForm?.agressor_presente == "1" ? "selected" : "" %>>Sim</option>
-<option value="0" <%= dadosForm?.agressor_presente == "0" ? "selected" : "" %>>Não</option>
-</select>
-</div>
-
-<div class="col-md-6 mb-3">
-<label class="form-label">Álcool/Drogas</label>
-<select name="usa_alcool_drogas" class="form-select">
-<% usa_alcool_drogas.forEach(u => { %>
-<option value="<%= u.id_valor %>"
-<%= dadosForm?.usa_alcool_drogas == u.id_valor ? "selected" : "" %>>
-<%= u.valor %>
-</option>
-<% }) %>
-</select>
-</div>
-</div>
-
-</div>
-</div>
-
-<!-- 4. Risco -->
-<div class="card mb-3 shadow-sm">
-<div class="card-body">
-<h5 class="card-title mb-3">4. Nível de risco</h5>
-
-<div class="row">
-<div class="col-md-4 mb-3">
-<label class="form-label">Risco imediato</label>
-<select name="risco_imediato" class="form-select">
-<option value="1" <%= dadosForm?.risco_imediato == "1" ? "selected" : "" %>>Sim</option>
-<option value="0" <%= dadosForm?.risco_imediato == "0" ? "selected" : "" %>>Não</option>
-</select>
-</div>
-
-<div class="col-md-4 mb-3">
-<label class="form-label">Criança/Idoso</label>
-<select name="crianca_idoso" class="form-select">
-<option value="1" <%= dadosForm?.crianca_idoso == "1" ? "selected" : "" %>>Sim</option>
-<option value="0" <%= dadosForm?.crianca_idoso == "0" ? "selected" : "" %>>Não</option>
-</select>
-</div>
-
-<div class="col-md-4 mb-3">
-<label class="form-label">Acesso a armas</label>
-<select name="existe_acesso_armas" class="form-select">
-<% existe_acesso_armas.forEach(a => { %>
-<option value="<%= a.id_valor %>"
-<%= dadosForm?.existe_acesso_armas == a.id_valor ? "selected" : "" %>>
-<%= a.valor %>
-</option>
-<% }) %>
-</select>
-</div>
-</div>
-
-</div>
-</div>
-
-<!-- 5. Contato -->
-<div class="card mb-3 shadow-sm">
-<div class="card-body">
-<h5 class="card-title mb-3">5. Contato (opcional)</h5>
-
-<div class="mb-3">
-<label class="form-label">Deseja contato?</label>
-<select name="deseja_contato" class="form-select">
-<option value="0" <%= dadosForm?.deseja_contato == "0" ? "selected" : "" %>>Não</option>
-<option value="1" <%= dadosForm?.deseja_contato == "1" ? "selected" : "" %>>Sim</option>
-</select>
-</div>
-
-<div class="row">
-<div class="col-md-6 mb-3">
-<label class="form-label">Telefone</label>
-<input type="text" name="telefone" class="form-control"
-value="<%= dadosForm?.telefone || "" %>">
-</div>
-
-<div class="col-md-6 mb-3">
-<label class="form-label">Email</label>
-<input type="email" name="email" class="form-control"
-value="<%= dadosForm?.email || "" %>">
-</div>
-</div>
-
-</div>
-</div>
-
-<!-- 6. Confirmação -->
-<div class="card mb-3 shadow-sm">
-<div class="card-body">
-<h5 class="card-title mb-3">6. Confirmação</h5>
-
-<div class="form-check">
-<input class="form-check-input"
-type="checkbox"
-name="confirmacao"
-value="1"
-<%= dadosForm?.confirmacao ? "checked" : "" %>>
-
-<label class="form-check-label">
-Confirmo que as informações são verdadeiras
-</label>
-</div>
-
-</div>
-</div>
-
-<button class="btn btn-danger w-100 py-3">Enviar denúncia</button>
-
-</form>
-</div>
-
-<%- include('partials/footer.ejs'); %>
+<%- include('partials/footer'); %>
