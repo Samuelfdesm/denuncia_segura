@@ -68,6 +68,8 @@ app.get("/form-denuncia", async (req, res) => {
 
 app.post("/form-denuncia", async (req, res) => {
 
+    console.log("CHEGOU NO POST", req.body);
+
     let erros = [];
 
     const invalido = (campo) => {

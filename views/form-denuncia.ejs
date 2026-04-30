@@ -64,7 +64,7 @@ const tiposSelecionados = Array.isArray(dados.tipos_violencia)
         </div>
       <% } %>
 
-      <form action="/form-denuncia" method="POST" autocomplete="off" data-formulario-denuncia>
+      <form action="/form-denuncia" method="POST" autocomplete="off" data-formulario-denuncia novalidate>
         <div class="faixa-formulario">
           <section class="cartao-etapa">
             <div class="linha-titulo-etapa">
@@ -99,7 +99,7 @@ const tiposSelecionados = Array.isArray(dados.tipos_violencia)
                   class="form-control"
                   name="descricao"
                   rows="5"
-                  required
+                  
                   placeholder="Conte o que aconteceu."
                 ><%= dados.descricao || "" %></textarea>
               </div>
@@ -113,13 +113,13 @@ const tiposSelecionados = Array.isArray(dados.tipos_violencia)
                   class="form-control"
                   value="<%= dados.data_ocorrencia || "" %>"
                   max="<%= hoje %>"
-                  required
+                  
                 >
               </div>
 
               <div>
                 <label for="frequencia" class="form-label">Frequência</label>
-                <select id="frequencia" class="form-select" name="frequencia" required>
+                <select id="frequencia" class="form-select" name="frequencia">
                   <option value="" disabled <%= !dados.frequencia ? "selected" : "" %>>Selecione</option>
                   <% frequencia.forEach((item) => { %>
                     <option
@@ -188,7 +188,7 @@ const tiposSelecionados = Array.isArray(dados.tipos_violencia)
             <div class="grade-campos">
               <div class="grid-larga">
                 <label for="relacao_vitima" class="form-label">Relação com a vítima</label>
-                <select id="relacao_vitima" class="form-select" name="relacao_vitima" required>
+                <select id="relacao_vitima" class="form-select" name="relacao_vitima" >
                   <option value="" disabled <%= !dados.relacao_vitima ? "selected" : "" %>>Selecione</option>
                   <% relacao_vitima.forEach((item) => { %>
                     <option
@@ -203,7 +203,7 @@ const tiposSelecionados = Array.isArray(dados.tipos_violencia)
 
               <div>
                 <label for="agressor_presente" class="form-label">Está presente agora?</label>
-                <select id="agressor_presente" name="agressor_presente" class="form-select" required>
+                <select id="agressor_presente" name="agressor_presente" class="form-select">
                   <option value="" disabled <%= dados.agressor_presente === undefined || dados.agressor_presente === "" ? "selected" : "" %>>Selecione</option>
                   <option value="1" <%= dados.agressor_presente == "1" ? "selected" : "" %>>Sim</option>
                   <option value="0" <%= dados.agressor_presente == "0" ? "selected" : "" %>>Não</option>
@@ -212,7 +212,7 @@ const tiposSelecionados = Array.isArray(dados.tipos_violencia)
 
               <div>
                 <label for="usa_alcool_drogas" class="form-label">Uso de álcool ou drogas?</label>
-                <select id="usa_alcool_drogas" name="usa_alcool_drogas" class="form-select" required>
+                <select id="usa_alcool_drogas" name="usa_alcool_drogas" class="form-select">
                   <option value="" disabled <%= !dados.usa_alcool_drogas ? "selected" : "" %>>Selecione</option>
                   <% usa_alcool_drogas.forEach((item) => { %>
                     <option
@@ -236,7 +236,7 @@ const tiposSelecionados = Array.isArray(dados.tipos_violencia)
             <div class="grade-campos grade-campos--tripla">
               <div>
                 <label for="risco_imediato" class="form-label">Risco imediato?</label>
-                <select id="risco_imediato" name="risco_imediato" class="form-select" required>
+                <select id="risco_imediato" name="risco_imediato" class="form-select">
                   <option value="" disabled <%= dados.risco_imediato === undefined || dados.risco_imediato === "" ? "selected" : "" %>>Selecione</option>
                   <option value="1" <%= dados.risco_imediato == "1" ? "selected" : "" %>>Sim</option>
                   <option value="0" <%= dados.risco_imediato == "0" ? "selected" : "" %>>Não</option>
@@ -245,7 +245,7 @@ const tiposSelecionados = Array.isArray(dados.tipos_violencia)
 
               <div>
                 <label for="crianca_idoso" class="form-label">Criança ou idoso?</label>
-                <select id="crianca_idoso" name="crianca_idoso" class="form-select" required>
+                <select id="crianca_idoso" name="crianca_idoso" class="form-select">
                   <option value="" disabled <%= dados.crianca_idoso === undefined || dados.crianca_idoso === "" ? "selected" : "" %>>Selecione</option>
                   <option value="1" <%= dados.crianca_idoso == "1" ? "selected" : "" %>>Sim</option>
                   <option value="0" <%= dados.crianca_idoso == "0" ? "selected" : "" %>>Não</option>
@@ -254,7 +254,7 @@ const tiposSelecionados = Array.isArray(dados.tipos_violencia)
 
               <div>
                 <label for="existe_acesso_armas" class="form-label">Existe acesso a armas?</label>
-                <select id="existe_acesso_armas" name="existe_acesso_armas" class="form-select" required>
+                <select id="existe_acesso_armas" name="existe_acesso_armas" class="form-select" >
                   <option value="" disabled <%= !dados.existe_acesso_armas ? "selected" : "" %>>Selecione</option>
                   <% existe_acesso_armas.forEach((item) => { %>
                     <option
@@ -331,7 +331,7 @@ const tiposSelecionados = Array.isArray(dados.tipos_violencia)
               name="confirmacao"
               value="1"
               <%= dados.confirmacao ? "checked" : "" %>
-              required
+              
             >
             <label class="form-check-label" for="confirmacao">
               Confirmo que as informações são verdadeiras.
