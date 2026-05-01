@@ -68,15 +68,23 @@ app.get("/form-denuncia", async (req, res) => {
 
 app.post("/form-denuncia", async (req, res) => {
 
-    console.log("CHEGOU NO POST", req.body);
-
     let erros = [];
 
+    // 🔴 NÃO usar para campos binários
     const invalido = (campo) => {
-        return !campo || campo === undefined || campo === null || campo === "";
+        return campo === undefined || campo === null || campo === "";
     };
 
+    // ✅ específico para boolean (0 ou 1)
+    const invalidoBinario = (campo) => {
+        return campo !== "0" && campo !== "1";
+    };
+
+    // =====================
     // Validações
+    // =====================
+
+    // texto / select normal
     if (invalido(req.body.descricao)) erros.push({ texto: "Descrição inválida." });
     if (invalido(req.body.data_ocorrencia)) erros.push({ texto: "Data inválida." });
     if (invalido(req.body.frequencia)) erros.push({ texto: "Frequência inválida." });
@@ -84,9 +92,44 @@ app.post("/form-denuncia", async (req, res) => {
     if (invalido(req.body.usa_alcool_drogas)) erros.push({ texto: "Uso de álcool/drogas inválido." });
     if (invalido(req.body.existe_acesso_armas)) erros.push({ texto: "Acesso a armas inválido." });
 
+    // checkbox múltiplo
     if (invalido(req.body.tipos_violencia)) {
         erros.push({ texto: "Selecione ao menos um tipo de violência." });
     }
+
+    // =====================
+    // 🔵 CAMPOS BINÁRIOS (faltavam aqui)
+    // =====================
+
+    if (invalidoBinario(req.body.agressor_presente)) {
+        erros.push({ texto: "Informe se o agressor está presente." });
+    }
+
+    if (invalidoBinario(req.body.risco_imediato)) {
+        erros.push({ texto: "Informe se há risco imediato." });
+    }
+
+    if (invalidoBinario(req.body.crianca_idoso)) {
+        erros.push({ texto: "Informe se há criança ou idoso envolvido." });
+    }
+
+    if (invalidoBinario(req.body.deseja_contato)) {
+        erros.push({ texto: "Informe se deseja contato." });
+    }
+
+    // =====================
+    // contato condicional
+    // =====================
+
+    if (req.body.deseja_contato === "1") {
+        if (invalido(req.body.telefone) && invalido(req.body.email)) {
+            erros.push({ texto: "Informe ao menos telefone ou email para contato." });
+        }
+    }
+
+    // =====================
+    // confirmação
+    // =====================
 
     if (!req.body.confirmacao) {
         erros.push({ texto: "Você precisa confirmar a denúncia." });
