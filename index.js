@@ -95,7 +95,25 @@ app.post("/form-denuncia", async (req, res) => {
     // =====================
 
     // checkbox múltiplo
-    if (invalido(req.body.tipos_violencia)) {
+    // if (invalido(req.body.tipos_violencia)) {
+    //     erros.push({ texto: "Selecione ao menos um tipo de violência." });
+    // }
+
+
+    let tiposViolencia = req.body.tipos_violencia;
+
+    if (!tiposViolencia) {
+        tiposViolencia = [];
+    } else if (!Array.isArray(tiposViolencia)) {
+        tiposViolencia = [tiposViolencia];
+    }
+
+    tiposViolencia = tiposViolencia.map(String);
+
+    // opcional (recomendado)
+    req.body.tipos_violencia = tiposViolencia;
+
+    if (tiposViolencia.length === 0) {
         erros.push({ texto: "Selecione ao menos um tipo de violência." });
     }
 
@@ -108,23 +126,6 @@ app.post("/form-denuncia", async (req, res) => {
     if (invalido(req.body.usa_alcool_drogas)) erros.push({ texto: "Uso de álcool/drogas inválido." });
     if (invalido(req.body.existe_acesso_armas)) erros.push({ texto: "Acesso a armas inválido." });
 
-
-    // let tiposViolencia = req.body.tipos_violencia;
-
-    // if (!tiposViolencia) {
-    //     tiposViolencia = [];
-    // } else if (!Array.isArray(tiposViolencia)) {
-    //     tiposViolencia = [tiposViolencia];
-    // }
-
-    // tiposViolencia = tiposViolencia.map(String);
-
-    // // opcional (recomendado)
-    // req.body.tipos_violencia = tiposViolencia;
-
-    // if (tiposViolencia.length === 0) {
-    //     erros.push({ texto: "Selecione ao menos um tipo de violência." });
-    // }
 
     // =====================
     // 🔵 CAMPOS BINÁRIOS (faltavam aqui)
