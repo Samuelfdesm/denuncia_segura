@@ -98,7 +98,7 @@ if (formularioDenuncia) {
 
   formularioDenuncia.addEventListener("submit", (evento) => {
     if (!validarTiposViolencia()) {
-      evento.preventDefault();
+      //evento.preventDefault();
       formularioDenuncia.reportValidity();
     }
   });
