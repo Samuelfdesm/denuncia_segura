@@ -8,7 +8,7 @@ services:
     working_dir: /home/node/app
 
     volumes:
-      - .:/home/node/app  # 🔥 só código (sem node_modules!)
+      - .:/home/node/app  # só código (sem node_modules!)
 
     ports:
       - "3000:3000"
@@ -33,7 +33,7 @@ services:
 
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=As,k71l;
+      - MSSQL_SA_PASSWORD=As,k71l!
 
     volumes:
       - sql_data:/var/opt/mssql

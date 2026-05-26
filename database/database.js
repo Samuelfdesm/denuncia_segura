@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 const connection = new Sequelize(
   "denuncia_segura",
   "sa",
-  "As,k71l;",
+  "As,k71l!",
   {
     host: "db", // 🔥 aqui está o segredo
     dialect: "mssql",
