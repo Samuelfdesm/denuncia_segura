@@ -5,7 +5,7 @@ const connection = new Sequelize(
   "sa",
   "As,k71l!",
   {
-    host: "db", // 🔥 aqui está o segredo
+    host: "db",
     dialect: "mssql",
     port: 1433,
 
